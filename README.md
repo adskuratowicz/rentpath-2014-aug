@@ -12,7 +12,7 @@ You will need:
 Clone this repository:
 
 ```bash
-$ git glone https://github.com/torqueforge/rentpath-2014-aug.git
+$ git clone https://github.com/torqueforge/rentpath-2014-aug.git
 ```
 
 Change directories so that you are in the project:
