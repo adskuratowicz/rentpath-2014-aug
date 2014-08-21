@@ -9,15 +9,29 @@ class Bottles
   end
 
   def verse(number)
-    "#{remaining(number).capitalize} #{container(number)} of beer on the wall, " +
-    "#{remaining(number)} #{container(number)} of beer.\n" +
-    "#{instruction(number)}, " +
-    "#{remaining(next_number(number))} #{container(next_number(number))} of beer on the wall.\n"
+    bottle_number = BottleNumber.new(number)
+    bottle_number_successor = bottle_number.successor
+    "#{bottle_number.remaining.capitalize} #{bottle_number.container} of beer on the wall, " +
+    "#{bottle_number.remaining} #{bottle_number.container} of beer.\n" +
+    "#{bottle_number.instruction}, " +
+    "#{bottle_number_successor.remaining} #{bottle_number_successor.container} of beer on the wall.\n"
   end
 
-  private
+end
 
-  def container(number)
+class BottleNumber
+
+  attr_reader :number
+
+  def initialize(number)
+    @number = number
+  end
+
+  def successor
+    self.class.new(next_number)
+  end
+
+  def container
     case number
     when 1
       'bottle'
@@ -26,7 +40,7 @@ class Bottles
     end
   end
 
-  def next_number(number)
+  def next_number
     case number
     when 0
       99
@@ -35,7 +49,7 @@ class Bottles
     end
   end
 
-  def pronoun(number)
+  def pronoun
     case number
     when 1
       'it'
@@ -44,7 +58,7 @@ class Bottles
     end
   end
 
-  def remaining(number)
+  def remaining
     case number
     when 0
       'no more'
@@ -53,12 +67,12 @@ class Bottles
     end
   end
 
-  def instruction(number)
+  def instruction
     case number
     when 0
       'Go to the store and buy some more'
     else
-      "Take #{pronoun(number)} down and pass it around"
+      "Take #{pronoun} down and pass it around"
     end
   end
 
