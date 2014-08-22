@@ -3,8 +3,10 @@ using Article
 class Farm
   attr_reader :animals
 
+  NullAnimal = Struct.new(:species, :sound)
+
   def initialize(animals)
-    @animals = animals
+    @animals = init_animals(animals)
   end
 
   def lyrics
@@ -19,5 +21,11 @@ class Farm
     "Here #{animal.sound.articlize}, there #{animal.sound.articlize}, " +
       "everywhere #{animal.sound.articlize} #{animal.sound},\n" +
     "Old MacDonald had a farm, E-I-E-I-O."
+  end
+
+  private
+
+  def init_animals(animals)
+    animals.collect { |a| a || NullAnimal.new('<silence>', '<silence>') }
   end
 end
