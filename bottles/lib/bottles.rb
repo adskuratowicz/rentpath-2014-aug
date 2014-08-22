@@ -79,4 +79,12 @@ class BottleNumber1 < BottleNumber
   def container
     'bottle'
   end
+
+  def amount
+    number.to_s
+  end
+
+  def action
+    "Take #{pronoun} down and pass it around"
+  end
 end
