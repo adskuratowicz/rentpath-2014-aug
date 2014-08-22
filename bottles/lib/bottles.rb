@@ -1,5 +1,4 @@
 class Bottles
-
   def song
     verses(99, 0)
   end
@@ -20,20 +19,13 @@ class Bottles
   private
 
   def bottle_number_for(number)
-    case number
-    when 0
-      BottleNumber0.new(number)
-    when 1
-      BottleNumber1.new(number)
-    else
-      BottleNumber.new(number)
-    end
+    Kernel.const_get("BottleNumber#{number}").new(number)
+  rescue NameError
+    BottleNumber.new(number)
   end
-
 end
 
 class BottleNumber
-
   attr_reader :number
 
   def initialize(number)
@@ -59,7 +51,6 @@ class BottleNumber
   def instruction
     "Take #{pronoun} down and pass it around"
   end
-
 end
 
 class BottleNumber0 < BottleNumber
