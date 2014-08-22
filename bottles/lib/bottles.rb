@@ -1,4 +1,16 @@
+module ToBottleNumber
+  refine Fixnum do
+    def to_bottle_number
+      Kernel.const_get("BottleNumber#{self}").new(self)
+    rescue NameError
+      BottleNumber.new(self)
+    end
+  end
+end
+
 class Bottles
+  using ToBottleNumber
+
   def song
     verses(99, 0)
   end
@@ -14,14 +26,6 @@ class Bottles
     "#{bottle_number.remaining} #{bottle_number.container} of beer.\n" +
     "#{bottle_number.instruction}, " +
     "#{bottle_number_successor.remaining} #{bottle_number_successor.container} of beer on the wall.\n"
-  end
-end
-
-class Fixnum
-  def to_bottle_number
-    Kernel.const_get("BottleNumber#{self}").new(self)
-  rescue NameError
-    BottleNumber.new(self)
   end
 end
 
