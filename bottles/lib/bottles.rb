@@ -8,20 +8,20 @@ class Bottles
   end
 
   def verse(number)
-    bottle_number = bottle_number_for(number)
-    bottle_number_successor = bottle_number_for(bottle_number.next_number)
+    bottle_number = number.to_bottle_number
+    bottle_number_successor = bottle_number.next_number.to_bottle_number
     "#{bottle_number.remaining.capitalize} #{bottle_number.container} of beer on the wall, " +
     "#{bottle_number.remaining} #{bottle_number.container} of beer.\n" +
     "#{bottle_number.instruction}, " +
     "#{bottle_number_successor.remaining} #{bottle_number_successor.container} of beer on the wall.\n"
   end
+end
 
-  private
-
-  def bottle_number_for(number)
-    Kernel.const_get("BottleNumber#{number}").new(number)
+class Fixnum
+  def to_bottle_number
+    Kernel.const_get("BottleNumber#{self}").new(self)
   rescue NameError
-    BottleNumber.new(number)
+    BottleNumber.new(self)
   end
 end
 
