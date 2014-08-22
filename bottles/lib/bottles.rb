@@ -9,12 +9,25 @@ class Bottles
   end
 
   def verse(number)
-    bottle_number = BottleNumber.new(number)
-    bottle_number_successor = bottle_number.successor
+    bottle_number = bottle_number_for(number)
+    bottle_number_successor = bottle_number_for(bottle_number.next_number)
     "#{bottle_number.remaining.capitalize} #{bottle_number.container} of beer on the wall, " +
     "#{bottle_number.remaining} #{bottle_number.container} of beer.\n" +
     "#{bottle_number.instruction}, " +
     "#{bottle_number_successor.remaining} #{bottle_number_successor.container} of beer on the wall.\n"
+  end
+
+  private
+
+  def bottle_number_for(number)
+    case number
+    when 0
+      BottleNumber0.new(number)
+    when 1
+      BottleNumber1.new(number)
+    else
+      BottleNumber.new(number)
+    end
   end
 
 end
@@ -27,53 +40,48 @@ class BottleNumber
     @number = number
   end
 
-  def successor
-    self.class.new(next_number)
-  end
-
   def container
-    case number
-    when 1
-      'bottle'
-    else
-      'bottles'
-    end
+    'bottles'
   end
 
   def next_number
-    case number
-    when 0
-      99
-    else
-      number - 1
-    end
+    number - 1
   end
 
   def pronoun
-    case number
-    when 1
-      'it'
-    else
-      'one'
-    end
+    'one'
   end
 
   def remaining
-    case number
-    when 0
-      'no more'
-    else
-      number.to_s
-    end
+    number.to_s
   end
 
   def instruction
-    case number
-    when 0
-      'Go to the store and buy some more'
-    else
-      "Take #{pronoun} down and pass it around"
-    end
+    "Take #{pronoun} down and pass it around"
   end
 
+end
+
+class BottleNumber0 < BottleNumber
+  def next_number
+    99
+  end
+
+  def remaining
+    'no more'
+  end
+
+  def instruction
+    'Go to the store and buy some more'
+  end
+end
+
+class BottleNumber1 < BottleNumber
+  def pronoun
+    'it'
+  end
+
+  def container
+    'bottle'
+  end
 end
